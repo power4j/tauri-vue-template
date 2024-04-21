@@ -17,7 +17,7 @@ const app = createApp(App)
 
 app.use(Quasar, {
   plugins: {}, // import Quasar plugins and add here
-  lang: quasarLang,
+  lang: quasarLang
 })
 app.use(pinia)
 app.use(router)

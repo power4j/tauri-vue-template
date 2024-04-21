@@ -1,6 +1,5 @@
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
-    <img alt="Vue logo" src="../assets/logo.png" />
+  <img alt="Vue logo" src="../assets/logo.png" />
 </template>
