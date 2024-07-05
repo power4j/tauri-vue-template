@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { callHello } from '@/service'
-import { HelloResponse } from '@/service/ipc/model'
+import { type HelloResponse } from '@/service/ipc/model'
 import { MsgClosable } from '@/utils/msg'
 
 const handleClick = () => {
