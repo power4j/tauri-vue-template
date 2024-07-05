@@ -1,27 +1,67 @@
-import { fileURLToPath, URL } from 'node:url'
-
+import path from 'path'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { quasar, transformAssetUrls } from '@quasar/vite-plugin';
+
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+
+import Unocss from 'unocss/vite'
+import {
+  presetAttributify,
+  presetIcons,
+  presetUno,
+  transformerDirectives,
+  transformerVariantGroup,
+} from 'unocss'
+
+const pathSrc = path.resolve(__dirname, 'src')
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    vue({
-      template: { transformAssetUrls }
-    }),
-
-    // @quasar/plugin-vite options list:
-    // https://github.com/quasarframework/quasar/blob/dev/vite-plugin/index.d.ts
-    quasar({
-      sassVariables: 'src/quasar-variables.sass'
-    })
-  ],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      '@/': `${pathSrc}/`,
+    },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "@/styles/element/index.scss" as *;`,
+      },
+    },
+  },
+  plugins: [
+    vue(),
+    Components({
+      // allow auto load markdown components under `./src/components/`
+      extensions: ['vue', 'md'],
+      // allow auto import and register components used in markdown
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+      resolvers: [
+        ElementPlusResolver({
+          importStyle: 'sass',
+        }),
+      ],
+      dts: 'src/components.d.ts',
+    }),
+
+    // https://github.com/antfu/unocss
+    // see unocss.config.ts for config
+    Unocss({
+      presets: [
+        presetUno(),
+        presetAttributify(),
+        presetIcons({
+          scale: 1.2,
+          warn: true,
+        }),
+      ],
+      transformers: [
+        transformerDirectives(),
+        transformerVariantGroup(),
+      ]
+    }),
+  ],
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //

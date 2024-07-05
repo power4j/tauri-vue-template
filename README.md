@@ -1,8 +1,13 @@
-> Tauri / Quasar / Vuejs starter projects.
+> Tauri / Elememt-Plus / Vuejs starter projects.
+
+<img src="docs/img/app-main.png" alt="screen" width="400"/>
+
 
 ## Links
+
 * [Vuejs Page](https://vuejs.org/)
-* [Quasar Framework Page](https://quasar-framework.org/)
+* [Elememt-Plus](https://github.com/element-plus/element-plus)
+* [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter)
 * [TauriPage](https://tauri.app/)
 
 ## build
@@ -10,10 +15,8 @@
 Install Node 20 LTS
 
 ```shell
-pnpm i && pnpm tauri build
+yarn && yarn tauri build
 ```
-
-
 
 ## develop
 
@@ -21,9 +24,10 @@ vite dev
 
 ```sh
 # vite dev
-pnpm dev
+yarn dev
 # tauri dev
-pnpm tauri dev
+yarn tauri dev
 # lint & fix 
-pnpm lint
+yarn lint
 ```
+

@@ -5,27 +5,23 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: () => import('../layouts/MainLayout.vue'),
+      redirect: '/home',
       children: [
         {
           name: 'home',
           path: '',
-          component: () => import('../views/AppHome.vue')
+          meta: {
+            keepAlive: false
+          },
+          component: () => import('@/views/app-home.vue')
         },
         {
-          name: 'page1',
-          path: 'page1',
-          component: () => import('../views/AppPage1.vue')
-        },
-        {
-          name: 'page2',
-          path: 'page2',
-          component: () => import('../views/AppPage2.vue')
-        },
-        {
-          name: 'page3',
-          path: 'page3',
-          component: () => import('../views/AppPage3.vue')
+          name: 'hello-world',
+          path: 'demo/hello-world',
+          meta: {
+            keepAlive: true
+          },
+          component: () => import('@/views/demo/hello-world.vue')
         }
       ]
     }
