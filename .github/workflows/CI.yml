@@ -1,0 +1,63 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name:  CI
+
+on:
+  push:
+    branches: [ "master", "main", "develop", "dev" ]
+  pull_request:
+    branches: [ "master", "main", "develop", "dev" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Rust Toolchain for GitHub CI
+      # You may pin to the exact commit or the version.
+      # uses: actions-rust-lang/setup-rust-toolchain@1fbea72663f6d4c03efaab13560c8a24cfd2a7cc
+      uses: actions-rust-lang/setup-rust-toolchain@v1.9.0
+      #with:
+        # Rust toolchain specification -- see https://rust-lang.github.io/rustup/concepts/toolchains.html#toolchain-specification
+        #toolchain: # optional
+        # Target triple to install for this toolchain
+        #target: # optional
+        # Comma-separated list of components to be additionally installed
+        #components: # optional
+        # Automatically configure Rust cache
+        #cache: # optional, default is true
+        # Paths to multiple Cargo workspaces and their target directories, separated by newlines.
+        #cache-workspaces: # optional
+        # Also cache on workflow failures
+        #cache-on-failure: # optional, default is true
+        # Enable the Rust problem matcher
+        #matcher: # optional, default is true
+        # set RUSTFLAGS environment variable, set to empty string to avoid overwriting build.rustflags
+        #rustflags: # optional, default is -D warnings
+    
+    - name: Setup Yarn ${{ matrix.node-version }}
+      # You may pin to the exact commit or the version.
+      # uses: mskelton/setup-yarn@15308d4b4c6e3e3ee269ec97a91d0d6bbb24ff36
+      uses: mskelton/setup-yarn@v2.0.0
+      with:
+        # Additional flags to pass to the install command.
+        #flags: # optional
+        # Node version to use, defaults to the current LTS version.
+        node-version: ${{ matrix.node-version }}
+        # Git ref to checkout. Passed to `actions/checkout`.
+        #ref: # optional
+        # Used to specify a package manager for caching in the default directory. Supported values: npm, yarn, pnpm
+        #cache: # optional, default is yarn
+        # Fetch depth of the checkout. Passed to `actions/checkout`.
+        #fetch-depth: # optional
+        
+    - run: yarn install 
+    - run: yarn tauri build
